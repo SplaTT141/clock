@@ -9,7 +9,7 @@ A simple and interactive JavaScript clock application that displays digital and 
 - 🕒 Real-time digital clock
 - 🕰️ Analog clock with rotating hour, minute, and second hands
 - 🌍 World time support for multiple cities
-- 🍅 Pomodoro mode toggle (visual work mode indicator)
+- 🍅 Pomodoro mode
 - 📅 Displays current date, weekday, and month
 - ⚡ Time updates every second
 
@@ -26,12 +26,11 @@ A simple and interactive JavaScript clock application that displays digital and 
 ## ⚙️ How It Works
 
 ```
-- When you open the app, the clock starts automatically and shows the time in Vilnius.
-- You can change the time by clicking on any city button (London, New York, Tokyo, Rio).
-- The digital clock shows the exact time, and the analog clock shows the same time using clock hands.
-- The current date is displayed below the clock.
-- You can turn on Pomodoro mode using the slider. Turn it off anytime by clicking the slider again.
-- The clock updates every second, so it always shows the current time.
+- The clock shows current time and date and updates every second.
+- Users can switch between different cities.
+- An analog clock is updated by rotating hour, minute, and second hands with CSS.
+- The Pomodoro timer runs for 25 minutes and can be started or stopped with a slider.
+- When the timer ends, it resets automatically or can be reset manually with a button.
 ```
 
 ## ✍️ Author

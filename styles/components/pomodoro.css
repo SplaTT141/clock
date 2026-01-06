@@ -42,3 +42,37 @@
 .chill {
   color: seagreen;
 }
+
+.pomodoro-time {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.pomodoro-time .repeat {
+  font-size: 2rem;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  padding: 0.5rem;
+  transition: all 0.2s;
+}
+
+.pomodoro-time .repeat:hover {
+  scale: 1.1;
+  cursor: pointer;
+}
+
+.pomodoro-timer {
+  font-size: 3rem;
+  color: seagreen;
+}
+
+.pomodoro-timer.work {
+  color: tomato;
+}
+
+.pomodoro-time.off {
+  display: none;
+}

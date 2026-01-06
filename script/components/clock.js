@@ -1,84 +1,130 @@
-const dateElement = document.querySelector('.date');
-const timeElement = document.querySelector('.time');
-const hoursElement = document.querySelector('.hours');
-const minutesElement = document.querySelector('.minutes');
-const secondsElement = document.querySelector('.seconds');
+const dateEl = document.querySelector('.date');
+const timeEl = document.querySelector('.time');
+const hoursEl = document.querySelector('.hours');
+const minutesEl = document.querySelector('.minutes');
+const secondsEl = document.querySelector('.seconds');
 
-const londonBtnDOM = document.querySelector('.london');
-const newYorkBtnDOM = document.querySelector('.new-york');
-const tokyoBtnDOM = document.querySelector('.tokyo');
-const rioBtnDOM = document.querySelector('.rio');
-const vilniusBtnDOM = document.querySelector('.vilnius');
-
-const sliderDOM = document.querySelector('.slider');
-
-let cityOffset = 2;
-let intervalId = null;
-let isPomodoro = false;
+const londonBtn = document.querySelector('.london');
+const newYorkBtn = document.querySelector('.new-york');
+const tokyoBtn = document.querySelector('.tokyo');
+const rioBtn = document.querySelector('.rio');
+const vilniusBtn = document.querySelector('.vilnius');
+const sliderEl = document.querySelector('.slider');
+const pomodoroTimeEl = document.querySelector('.pomodoro-time');
+const pomodoroTimerEl = document.querySelector('.pomodoro-timer');
+const pomodoroRepeatBtn = document.querySelector('.repeat');
 
 const months = [
     'Sausio', 'Vasario', 'Kovo', 'Balandžio', 'Gegužės', 'Birželio',
     'Liepos', 'Rugpjūčio', 'Rugsėjo', 'Spalio', 'Lapkričio', 'Gruodžio'
 ];
 
-const weekdays = [
+const days = [
     'Sekmadienis', 'Pirmadienis', 'Antradienis',
     'Trečiadienis', 'Ketvirtadienis', 'Penktadienis', 'Šeštadienis'
 ];
 
-function clock() {
+let offset = 2;
+
+function updateClock() {
     const now = new Date();
-    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-    const localTime = new Date(utc + cityOffset * 3600000);
+    const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
+    const cityTime = new Date(utcTime + offset * 60 * 60 * 1000);
 
-    const h = localTime.getHours();
-    const min = localTime.getMinutes();
-    const s = localTime.getSeconds();
+    let h = cityTime.getHours();
+    let m = cityTime.getMinutes();
+    let s = cityTime.getSeconds();
 
-    timeElement.textContent = `${addZero(h)}:${addZero(min)}:${addZero(s)}`;
+    if (h < 10) h = '0' + h;
+    if (m < 10) m = '0' + m;
+    if (s < 10) s = '0' + s;
 
-    dateElement.textContent =
-        `${weekdays[localTime.getDay()]}, ${months[localTime.getMonth()]} ${localTime.getDate()} d.`;
+    timeEl.textContent = h + ':' + m + ':' + s;
 
-    clockArrowsRotation(h, min, s);
+    dateEl.textContent =
+        days[cityTime.getDay()] + ', ' +
+        months[cityTime.getMonth()] + ' ' +
+        cityTime.getDate() + ' d.';
+
+    hoursEl.style.transform = 'rotate(' + (cityTime.getHours() * 30) + 'deg)';
+    minutesEl.style.transform = 'rotate(' + (cityTime.getMinutes() * 6) + 'deg)';
+    secondsEl.style.transform = 'rotate(' + (cityTime.getSeconds() * 6) + 'deg)';
 }
 
-function clockArrowsRotation(h, min, s) {
-    hoursElement.style.transform = `rotate(${h * 30 + min * 0.5}deg)`;
-    minutesElement.style.transform = `rotate(${min * 6}deg)`;
-    secondsElement.style.transform = `rotate(${s * 6}deg)`;
+//Other cities
+
+let timer;
+
+function start() {
+    clearInterval(timer);
+    updateClock();
+    timer = setInterval(updateClock, 1000);
 }
 
-function startClock() {
-    clearInterval(intervalId);
-    clock();
-    intervalId = setInterval(clock, 1000);
-}
-
-function addZero(n) {
-    return n < 10 ? '0' + n : n;
-}
-
-function setCity(offset) {
-    cityOffset = offset;
-    startClock();
-}
-
-vilniusBtnDOM.addEventListener('click', () => setCity(2));
-londonBtnDOM.addEventListener('click', () => setCity(0));
-newYorkBtnDOM.addEventListener('click', () => setCity(-5));
-tokyoBtnDOM.addEventListener('click', () => setCity(9));
-rioBtnDOM.addEventListener('click', () => setCity(-3));
-
-sliderDOM.addEventListener('click', () => {
-    isPomodoro = !isPomodoro;
-    sliderDOM.classList.toggle('on');
-    updatePomodoro();
+vilniusBtn.addEventListener('click', () => {
+    offset = 2;
+    start();
 });
 
-function updatePomodoro() {
-    timeElement.classList.remove('work', 'chill');
-    if (isPomodoro) timeElement.classList.add('work');
+londonBtn.addEventListener('click', () => {
+    offset = 0;
+    start();
+});
+
+newYorkBtn.addEventListener('click', () => {
+    offset = -5;
+    start();
+});
+
+tokyoBtn.addEventListener('click', () => {
+    offset = 9;
+    start();
+});
+
+rioBtn.addEventListener('click', () => {
+    offset = -3;
+    start();
+});
+
+// POMODORO
+
+let workSeconds = 25 * 60;
+
+sliderEl.addEventListener('click', () => {
+    sliderEl.classList.toggle('on');
+    timeEl.classList.toggle('work');
+
+    if (timeEl.classList.contains('work')) {
+        pomodoroTimer();
+        pomodoroInterval = setInterval(pomodoroTimer, 1000);
+        pomodoroTimeEl.classList.remove('off');
+        pomodoroTimerEl.classList.add('work');
+    }
+});
+
+function pomodoroTimer() {
+    let minutes = Math.floor(workSeconds / 60);
+    let seconds = workSeconds % 60;
+
+    pomodoroTimerEl.innerHTML = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+    workSeconds--;
+
+    if (!timeEl.classList.contains('work')) {
+        clearInterval(pomodoroInterval);
+        pomodoroTimeEl.classList.add('off');
+    }
+
+    if (workSeconds < 0) {
+        sliderEl.classList.remove('on');
+        timeEl.classList.remove('work');
+
+        workSeconds = 25 * 60;
+    }
 }
 
-startClock();
+pomodoroRepeatBtn.addEventListener('click', () => {
+    workSeconds = 25 * 60;
+})
+
+start();
