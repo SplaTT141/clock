@@ -23,14 +23,15 @@ A simple and interactive JavaScript clock application that displays digital and 
 
 👉 **[Open the project](https://splatt141.github.io/picture-search/)**
 
-## 🎯 Project Purpose
+## ⚙️ How It Works
 
 ```
-- Working with the JavaScript Date object
-- Handling time zones
-- DOM manipulation
-- Using setInterval()
-- Creating an interactive user interface
+- When you open the app, the clock starts automatically and shows the time in Vilnius.
+- You can change the time by clicking on any city button (London, New York, Tokyo, Rio).
+- The digital clock shows the exact time, and the analog clock shows the same time using clock hands.
+- The current date is displayed below the clock.
+- You can turn on Pomodoro mode using the slider. Turn it off anytime by clicking the slider again.
+- The clock updates every second, so it always shows the current time.
 ```
 
 ## ✍️ Author
