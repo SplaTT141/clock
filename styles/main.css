@@ -1,5 +1,6 @@
 @import "/styles/layout/layout.css";
 @import "/styles/components/clock-digital.css";
 @import "/styles/components/clock-analog.css";
-@import "/styles/components/day-night.css";
+@import "/styles/components/other-cities.css";
+@import "/styles/components/pomodoro.css";
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");

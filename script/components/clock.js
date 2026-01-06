@@ -1,66 +1,92 @@
-// export function clockDigital() {
-const dateElement = document.getElementsByClassName('date')[0];
-const timeElement = document.getElementsByClassName('time')[0];
-const hoursElement = document.getElementsByClassName('hours')[0];
-const minutesElement = document.getElementsByClassName('minutes')[0];
-const secondsElement = document.getElementsByClassName('seconds')[0];
+const dateElement = document.querySelector('.date');
+const timeElement = document.querySelector('.time');
+const hoursElement = document.querySelector('.hours');
+const minutesElement = document.querySelector('.minutes');
+const secondsElement = document.querySelector('.seconds');
+
+const londonBtnDOM = document.querySelector('.london');
+const newYorkBtnDOM = document.querySelector('.new-york');
+const tokyoBtnDOM = document.querySelector('.tokyo');
+const rioBtnDOM = document.querySelector('.rio');
+const vilniusBtnDOM = document.querySelector('.vilnius');
+
+const sliderDOM = document.querySelector('.slider');
 
 const months = [
-    'Sausio',
-    'Vasario',
-    'Kovo',
-    'Balandzio',
-    'Geguzes',
-    'Birzelio',
-    'Liepos',
-    'Rugpjucio',
-    'Rugsejo',
-    'Spalio',
-    'Lapkricio',
-    'Gruodzio',
+    'Sausio', 'Vasario', 'Kovo', 'Balandzio', 'Geguzes', 'Birzelio',
+    'Liepos', 'Rugpjucio', 'Rugsejo', 'Spalio', 'Lapkricio', 'Gruodzio'
 ];
 
 const weekdays = [
-    'Sekmadienis',
-    'Pirmadienis',
-    'Antradienis',
-    'Treciadienis',
-    'Ketvirtadienis',
-    'Penktadienis',
-    'Sestadienis',
+    'Sekmadienis', 'Pirmadienis', 'Antradienis',
+    'Treciadienis', 'Ketvirtadienis', 'Penktadienis', 'Sestadienis'
 ];
+
+let cityOffset = 0;
+let intervalId = null;
 
 function clock() {
     const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const localTime = new Date(utc + cityOffset * 3600000);
 
-    let h = now.getHours();
-    let min = now.getMinutes();
-    let s = now.getSeconds();
-    h = addZero(h);
-    min = addZero(min);
-    s = addZero(s);
+    const h = localTime.getHours();
+    const min = localTime.getMinutes();
+    const s = localTime.getSeconds();
 
-    let year = now.getFullYear();
-    let month = now.getMonth();
-    let weekday = now.getDay();
-    let day = now.getDate();
+    timeElement.textContent =
+        `${addZero(h)}:${addZero(min)}:${addZero(s)}`;
 
-    timeElement.textContent = h + ':' + min + ':' + s;
-    dateElement.textContent = weekdays[weekday] + ', ' + months[month] + ' ' + day + ' ' + ' d.'
-    setTimeout(clock, 1000);
+    dateElement.textContent =
+        `${weekdays[localTime.getDay()]}, ${months[localTime.getMonth()]} ${localTime.getDate()} d.`;
 
-    hoursElement.style.transform = 'rotate(' + h * 30 + 'deg)';
-    minutesElement.style.transform = 'rotate(' + min * 6 + 'deg)';
-    secondsElement.style.transform = 'rotate(' + s * 6 + 'deg)';
+    clockArrowsRotation(h, min, s);
 }
 
-function addZero(t) {
-    if (t < 10) {
-        t = '0' + t;
+function clockArrowsRotation(h, min, s) {
+    hoursElement.style.transform =
+        `rotate(${h * 30 + min * 0.5}deg)`;
+    minutesElement.style.transform =
+        `rotate(${min * 6}deg)`;
+    secondsElement.style.transform =
+        `rotate(${s * 6}deg)`;
+}
+
+function startClock() {
+    clearInterval(intervalId);
+    clock();
+    intervalId = setInterval(clock, 1000);
+}
+
+function addZero(n) {
+    return n < 10 ? '0' + n : n;
+}
+
+function setCity(offset) {
+    cityOffset = offset;
+    startClock();
+}
+
+vilniusBtnDOM.addEventListener('click', () => setCity(0));
+londonBtnDOM.addEventListener('click', () => setCity(-1));
+newYorkBtnDOM.addEventListener('click', () => setCity(-6));
+tokyoBtnDOM.addEventListener('click', () => setCity(8));
+rioBtnDOM.addEventListener('click', () => setCity(-5));
+
+let isPomodoro = false;
+
+sliderDOM.addEventListener('click', () => {
+    isPomodoro = !isPomodoro;
+    sliderDOM.classList.toggle('on');
+    updatePomodoro();
+});
+
+function updatePomodoro() {
+    timeElement.classList.remove('work', 'chill');
+
+    if (isPomodoro) {
+        timeElement.classList.add('work');
     }
-
-    return t;
 }
 
-clock()
-// }
+startClock();

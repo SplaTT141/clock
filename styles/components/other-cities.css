@@ -1,0 +1,29 @@
+.other-cities {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.other-cities button {
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0.7em 1.5em;
+  background-color: #fff;
+  color: #333;
+  border-radius: 2em;
+  border: none;
+  transition: all 0.2s;
+}
+
+.other-cities button:hover {
+  box-shadow: 0.2em 0.2em 0.2em #ffffff79;
+}
+
+.other-cities button.day {
+  background-color: #333;
+  color: #fff;
+}
+
+.other-cities button.day:hover {
+  box-shadow: 0.2em 0.2em 0.2em #33333397;
+}

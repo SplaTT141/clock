@@ -1,5 +1,5 @@
 .date {
-  font-size: 5rem;
+  font-size: 3rem;
   color: #fff;
   text-align: center;
 }
@@ -7,16 +7,16 @@
 .time {
   text-align: center;
   color: #fff;
-  font-size: 10rem;
+  font-size: 5rem;
 }
 
 .date,
 .time {
-  transition: all 1s;
+  transition: all 0.5s;
 }
 
 .date.day,
 .time.day {
   color: #333;
-  transition: all 1s;
+  transition: all 0.5s;
 }

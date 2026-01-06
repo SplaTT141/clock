@@ -1,7 +1,7 @@
 .clock-analog {
-  margin-top: 6rem;
-  width: 500px;
-  height: 500px;
+  margin-top: 3rem;
+  width: 270px;
+  height: 270px;
   border-radius: 50%;
   background-color: #fff;
   position: relative;
@@ -12,8 +12,8 @@
 
 .clock-analog::after {
   content: "";
-  width: 25px;
-  height: 25px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
   background-color: #333;
 }
@@ -24,29 +24,32 @@
 
 .hours {
   background-color: #333;
-  width: 16px;
-  height: 100px;
+  width: 10px;
+  height: 60px;
   position: absolute;
-  top: calc(50% - 100px);
-  left: calc(50% - 8px);
+  top: calc(50% - 60px);
+  left: calc(50% - 5px);
+  border-radius: 30%;
 }
 
 .minutes {
   background-color: #333;
-  width: 10px;
-  height: 160px;
+  width: 6px;
+  height: 80px;
   position: absolute;
-  top: calc(50% - 160px);
-  left: calc(50% - 5px);
+  top: calc(50% - 80px);
+  left: calc(50% - 3px);
+  border-radius: 25%;
 }
 
 .seconds {
   background-color: #333;
   width: 4px;
-  height: 190px;
+  height: 100px;
   position: absolute;
-  top: calc(50% - 190px);
+  top: calc(50% - 100px);
   left: calc(50% - 2px);
+  border-radius: 30%;
 }
 
 .clock-analog.day {
@@ -57,5 +60,44 @@
 .minutes.day,
 .seconds.day,
 .clock-analog.day::after {
+  background-color: #fff;
+}
+
+.mark {
+  background-color: #333;
+  width: 5px;
+  height: 20px;
+  border-radius: 0 0 20% 20%;
+  transition: 0.5s;
+}
+
+.mark.h-12 {
+  position: absolute;
+  top: 0;
+  left: 50%;
+}
+
+.mark.h-3 {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 10px);
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.mark.h-6 {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  rotate: 180deg;
+}
+
+.mark.h-9 {
+  position: absolute;
+  top: 50%;
+  left: calc(0% + 10px);
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+.mark.day {
   background-color: #fff;
 }

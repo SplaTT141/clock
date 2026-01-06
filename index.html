@@ -6,22 +6,42 @@
     <title>Clock</title>
     <script src="./script/components/clock.js" defer></script>
     <script src="./script/components/day-night.js" defer></script>
+    <script src="./script/components/other-cities.js" defer></script>
     <link rel="stylesheet" href="./styles/main.css" />
   </head>
   <body>
-    <div class="day-night-switch">
-      <i class="fa fa-sun-o active"></i>
-      <i class="fa fa-moon-o"></i>
-    </div>
     <div class="clock-digital">
-      <div class="time"></div>
       <div class="date"></div>
+      <div class="time"></div>
     </div>
 
     <div class="clock-analog">
       <div class="hours"></div>
       <div class="minutes"></div>
       <div class="seconds"></div>
+      <div class="clock-mark">
+        <i class="mark h-12"></i>
+        <i class="mark h-3"></i>
+        <i class="mark h-6"></i>
+        <i class="mark h-9"></i>
+      </div>
+    </div>
+
+    <section>
+      <div class="other-cities">
+        <button type="button" class="city london">London</button>
+        <button type="button" class="city new-york">New-York</button>
+        <button type="button" class="city tokyo">Tokyo</button>
+        <button type="button" class="city rio">Rio de Janeiro</button>
+        <button type="button" class="city vilnius">Vilnius</button>
+      </div>
+    </section>
+
+    <div class="pomodoro">
+      <div class="slider">
+        <div class="dot"></div>
+      </div>
+      <div class="label">Pomodoro</div>
     </div>
   </body>
 </html>
