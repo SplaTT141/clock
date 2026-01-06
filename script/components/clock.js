@@ -12,33 +12,34 @@ const vilniusBtnDOM = document.querySelector('.vilnius');
 
 const sliderDOM = document.querySelector('.slider');
 
-const months = [
-    'Sausio', 'Vasario', 'Kovo', 'Balandzio', 'Geguzes', 'Birzelio',
-    'Liepos', 'Rugpjucio', 'Rugsejo', 'Spalio', 'Lapkricio', 'Gruodzio'
-];
-
-const weekdays = [
-    'Sekmadienis', 'Pirmadienis', 'Antradienis',
-    'Treciadienis', 'Ketvirtadienis', 'Penktadienis', 'Sestadienis'
-];
-
-let cityOffset = 0;
+let currentTimeZone = 'Europe/Vilnius';
 let intervalId = null;
+let isPomodoro = false;
 
 function clock() {
     const now = new Date();
-    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-    const localTime = new Date(utc + cityOffset * 3600000);
 
-    const h = localTime.getHours();
-    const min = localTime.getMinutes();
-    const s = localTime.getSeconds();
+    const timeFormatter = new Intl.DateTimeFormat('lt-LT', {
+        timeZone: currentTimeZone,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
 
-    timeElement.textContent =
-        `${addZero(h)}:${addZero(min)}:${addZero(s)}`;
+    const dateFormatter = new Intl.DateTimeFormat('lt-LT', {
+        timeZone: currentTimeZone,
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric'
+    });
 
-    dateElement.textContent =
-        `${weekdays[localTime.getDay()]}, ${months[localTime.getMonth()]} ${localTime.getDate()} d.`;
+    const timeParts = timeFormatter.formatToParts(now);
+    const h = Number(timeParts.find(p => p.type === 'hour').value);
+    const min = Number(timeParts.find(p => p.type === 'minute').value);
+    const s = Number(timeParts.find(p => p.type === 'second').value);
+
+    timeElement.textContent = timeFormatter.format(now);
+    dateElement.textContent = dateFormatter.format(now);
 
     clockArrowsRotation(h, min, s);
 }
@@ -58,22 +59,16 @@ function startClock() {
     intervalId = setInterval(clock, 1000);
 }
 
-function addZero(n) {
-    return n < 10 ? '0' + n : n;
-}
-
-function setCity(offset) {
-    cityOffset = offset;
+function setCity(timeZone) {
+    currentTimeZone = timeZone;
     startClock();
 }
 
-vilniusBtnDOM.addEventListener('click', () => setCity(0));
-londonBtnDOM.addEventListener('click', () => setCity(-1));
-newYorkBtnDOM.addEventListener('click', () => setCity(-6));
-tokyoBtnDOM.addEventListener('click', () => setCity(8));
-rioBtnDOM.addEventListener('click', () => setCity(-5));
-
-let isPomodoro = false;
+vilniusBtnDOM.addEventListener('click', () => setCity('Europe/Vilnius'));
+londonBtnDOM.addEventListener('click', () => setCity('Europe/London'));
+newYorkBtnDOM.addEventListener('click', () => setCity('America/New_York'));
+tokyoBtnDOM.addEventListener('click', () => setCity('Asia/Tokyo'));
+rioBtnDOM.addEventListener('click', () => setCity('America/Sao_Paulo'));
 
 sliderDOM.addEventListener('click', () => {
     isPomodoro = !isPomodoro;

@@ -21,7 +21,7 @@ A simple and interactive JavaScript clock application that displays digital and 
 
 ## ▶️ Live Demo
 
-👉 **[Open the project](https://splatt141.github.io/picture-search/)**
+👉 **[Open the project](https://splatt141.github.io/clock/)**
 
 ## ⚙️ How It Works
 
